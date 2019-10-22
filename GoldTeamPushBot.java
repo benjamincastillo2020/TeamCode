@@ -2,12 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.*;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor ;
-import com.qualcomm.robotcore.hardware.Servo;
-import java.util.concurrent.TimeUnit;
+
 
 @TeleOp
 public class GoldTeamPushBot extends LinearOpMode {
@@ -41,21 +38,28 @@ public class GoldTeamPushBot extends LinearOpMode {
             double RightDrive;
             double LeftDrive;
             double ArmDrive;
-            double Extender_Drive = 0;
-            double Roation_Drive = 0;
-            double LeftClaw_Drive = 0;
-            double RightClaw_Drive = 0;
+            //double Extender_Drive = 0;
+            //double Rotation_Drive = 0;
+            //double LeftClaw_Drive = 0;
+            //double RightClaw_Drive = 0;
 
             while (opModeIsActive()) {
 
                 LeftDrive = (gamepad1.left_stick_y);
                 RightDrive = -(gamepad1.right_stick_y);
 
+                //converts long to double
+                double Righttrigger = (gamepad1.right_trigger);
+
+                //converts Long to double
+                double Lefttrigger = (gamepad1.left_trigger);
+
+
                 Right_Drive.setPower(RightDrive);
                 Left_Drive.setPower(LeftDrive);
                 //Arm Motor Up Code
                 if (gamepad1.dpad_up == true)
-                    while (gamepad1.dpad_up == true) {
+                    while (gamepad1.dpad_up ) {
                         ArmDrive = (-0.6);
                         Arm_Drive.setPower(ArmDrive);
                         if (gamepad1.dpad_up == false) {
@@ -66,7 +70,7 @@ public class GoldTeamPushBot extends LinearOpMode {
                 //Arm Motor Down Code
                     }
                 if (gamepad1.dpad_down == true)
-                    while (gamepad1.dpad_down == true) {
+                    while (gamepad1.dpad_down ) {
                         ArmDrive = (0.6);
                         Arm_Drive.setPower(ArmDrive);
                         if (gamepad1.dpad_down == false) {
@@ -79,38 +83,82 @@ public class GoldTeamPushBot extends LinearOpMode {
                 if (gamepad1.dpad_left == true)
                 while( gamepad1.dpad_left ) {
                     Extender_sDrive.setPower(-1);
-                    
+
                     if (gamepad1.dpad_left != true){
-                        Extender_sDrive.setPower(-1);
-                        break;
-                    }
-                }
-                
-                //Servo Extender Out
-                if (gamepad1.dpad_right == true)
-                while( gamepad1.dpad_right ) {
-                    Extender_sDrive.setPower(1);
-                    if (gamepad1.dpad_right != true){
+                        Extender_sDrive.setPower(0);
                         break;
                     }
                 }
 
-                if (gamepad1.dpad_left == true)
-                    while( gamepad1.dpad_left ) {
-                        Extender_Drive.setPower(-1);
-                        if (gamepad1.dpad_left != true){
-                            break;
-                        }
+                //Rotation Drive Down
+                if (gamepad1.y == true)
+                    while( gamepad1.y ) {
+                        Rotation_sDrive.setPower(-0.5);
 
-
-                    }
-                if (gamepad1.dpad_right == true)
-                    while( gamepad1.dpad_right ) {
-                        Extender_Drive.setPower(1);
-                        if (gamepad1.dpad_right != true){
+                        if (gamepad1.y != true){
+                            Rotation_sDrive.setPower(0);
                             break;
                         }
                     }
+                //Rotation Drive up
+                if (gamepad1.a == true)
+                    while( gamepad1.a ) {
+                        Rotation_sDrive.setPower(0.5);
+
+                        if (gamepad1.a != true){
+                            Rotation_sDrive.setPower(0);
+                            break;
+                        }
+                    }
+                //Claw Drive Right Hand Out
+                if (gamepad1.right_bumper == true) {
+                    while (gamepad1.right_bumper) {
+                        RightClaw_sDrive.setPower(-1);
+
+                        if (gamepad1.right_bumper != true) {
+                            RightClaw_sDrive.setPower(0);
+                            break;
+                        }
+                    }
+
+                }
+                //Claw Drive Right Hand In
+                if (gamepad1.right_trigger != 0) {
+                    while (gamepad1.right_trigger != 0){
+                        RightClaw_sDrive.setPower(Righttrigger);
+
+                        if (gamepad1.right_trigger == 0){
+                            RightClaw_sDrive.setPower(0);
+                            break;
+                        }
+                    }
+                }
+                //Claw Drive Left Hand Out
+                if (gamepad1.left_bumper == true) {
+                    while (gamepad1.left_bumper) {
+                        LeftClaw_sDrive.setPower(-1);
+
+                        if (gamepad1.left_bumper != true) {
+                            LeftClaw_sDrive.setPower(0);
+                            break;
+                        }
+                    }
+
+                }
+                //Claw Drive Left Hand In
+                if (gamepad1.left_trigger != 0) {
+                    while (gamepad1.left_trigger != 0){
+                        LeftClaw_sDrive.setPower(Lefttrigger);
+
+                        if (gamepad1.left_trigger == 0){
+                            LeftClaw_sDrive.setPower(0);
+                            break;
+                        }
+                    }
+                }
+
+
+
 
 
                 telemetry.addData("Right_Drive", RightDrive);
